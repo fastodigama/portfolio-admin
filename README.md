@@ -28,28 +28,18 @@ It allows administrators to manage **projects** and **skills** with a modern, re
 ## 🚀 Getting Started
 
 1. Clone the repo  
-git clone https://github.com/your-username/portfolio-admin.git
+git clone  https://github.com/fastodigama/portfolio-admin.git
 cd portfolio-admin
 
-markdown
-Copy
-Edit
 
 2. Install dependencies  
 npm install
-
-markdown
-Copy
-Edit
 
 3. Start MongoDB (locally or with Atlas)
 
 4. Run the app  
 npm run dev
 
-yaml
-Copy
-Edit
 
 5. Open in your browser  
 [http://localhost:8899](http://localhost:8899)
@@ -63,10 +53,6 @@ views/ # Pug templates
 routes/ # Express routes
 models/ # Mongoose schemas
 assets/scss/ # Custom SCSS with Foundation imports
-
-yaml
-Copy
-Edit
 
 ---
 
