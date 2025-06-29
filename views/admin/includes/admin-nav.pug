@@ -1,0 +1,4 @@
+nav(aria-label="Admin navigation")
+  ul.menu.vertical.medium-horizontal
+    each link in links || []
+      li: a(href=link.path) #{link.name}

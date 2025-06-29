@@ -1,0 +1,21 @@
+extends ../admin-main-layout
+
+block main-layout-content
+  h1 Add new project
+
+  form(action="/admin/projects/add/submit", method="post", class="grid-container")
+    .grid-x.grid-padding-x
+      .cell.medium-6
+        label(for="name") Project Name
+        input.input-group-field(type="text", name="name", placeholder="Project name")
+
+      .cell.medium-6
+        label(for="technologies") Technologies (comma-separated)
+        input.input-group-field(type="text", name="technologies", placeholder="e.g. HTML, CSS, JavaScript")
+
+      .cell
+        label(for="description") Description
+        textarea(name="description", placeholder="Describe the project...", rows="4")
+         
+      .cell
+        button.button(type="submit") Add Project

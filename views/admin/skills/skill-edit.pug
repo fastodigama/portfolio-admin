@@ -1,0 +1,20 @@
+extends ../admin-main-layout
+
+block main-layout-content
+
+    div.content
+        h1.page-title Edit skills
+        form(action="/admin/skills/edit/submit", method="post")
+            input(type="hidden", name="skillId", value =editSkill._id)
+
+            div
+                label(for="name") Name:
+                input(type="text" id="name" name="name", value=editSkill.name)
+            div
+                label(for="level") level:
+                input(type="text" ,id="level", name="level", value=editSkill.level)
+            div
+                label(for="cat") category:
+                input(type="text" ,id="cat", name="category", value=editSkill.category)
+            div
+                button(type="submit") Update category

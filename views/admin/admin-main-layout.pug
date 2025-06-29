@@ -1,0 +1,41 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title #{title} | Portfolio
+    link(rel="stylesheet", href="/css/style.css")
+    
+   
+  body
+    // Foundation Top Bar Navigation
+    header
+      nav.top-bar
+        .top-bar-left.top-bar-title
+          ul.menu
+            li.menu-text
+              a(href="/admin/dashboard") Fadel Portfolio admin
+        .top-bar-right
+          // Desktop menu (hidden on small screens)
+          .show-for-medium
+            include includes/admin-nav.pug
+          // Mobile hamburger button (hidden on medium+ screens)
+          .hide-for-medium
+            button.menu-icon(type="button" data-toggle="mobile-menu")
+      
+      // Mobile menu (hidden by default, toggles when hamburger is clicked)
+      .dropdown-pane#mobile-menu(data-dropdown data-auto-focus="true" data-close-on-click="true")
+        include includes/admin-nav.pug
+
+    main#main.grid-container
+      block main-layout-content
+        .grid-container
+        
+    footer#footer
+      p &copy; Copyright Fadel Matar, 2025.
+             
+    // Add Foundation scripts
+    script(src="/js/jquery.min.js")
+    script(src="/js/foundation.min.js")
+    script.
+      $(document).foundation();

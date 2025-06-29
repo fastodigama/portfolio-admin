@@ -1,0 +1,21 @@
+extends ../admin-main-layout
+
+block main-layout-content
+  h3 Add Skill
+
+  form(action="/admin/skills/add/submit", method="post", class="grid-container")
+    .grid-x.grid-padding-x
+      .cell.medium-2
+        label(for="name") Skill Name
+        input.input-group-field(type="text", name="name", placeholder="Skill name")
+
+      .cell.medium-2
+        label(for="level") Level
+        input.input-group-field(type="text", name="level", placeholder="Advanced")
+
+      .cell.medium-6
+        label(for="category") Category
+        input.input-group-field(type="text", name="category", placeholder="Backend")
+
+      .cell.margin-top
+        button.button(type="submit") Add Skill

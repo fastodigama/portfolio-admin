@@ -1,0 +1,21 @@
+extends ../admin-main-layout
+
+block main-layout-content
+
+    div.content
+        h1.page-title Edit project
+        form(action="/admin/projects/edit/submit", method="post")
+            input(type="hidden", name="projectId", value =editProject._id)
+
+            div
+                label(for="name") Name:
+                input(type="text" id="name" name="name", value=editProject.name)
+            div
+                label(for="desc") Description:
+                input(type="text" ,id="desc", name="description", value=editProject.description)
+            div
+                label(for="tech") Technologies:
+                input(type="text" ,id="tech", name="technologies", value=editProject.technologies)
+            div
+                button(type="submit") Update project
+

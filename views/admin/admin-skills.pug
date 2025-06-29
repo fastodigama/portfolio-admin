@@ -1,0 +1,27 @@
+extends admin-main-layout
+
+block main-layout-content
+  h3 Manage Skills
+  a.button(href="/admin/skills/add") + Add skill
+
+  table.table
+    thead
+      tr
+        th Name
+        th Level
+        th Category
+        th Actions
+    tbody
+      each skill in skills
+        tr
+          td #{skill.name}
+          td #{skill.level}
+          td #{skill.category}
+          td
+            .button-group
+              form.button-form(action="/admin/skills/delete", method="get")
+                input(type="hidden", name="skillId", value=skill._id)
+                button.button.alert(type="submit") Delete
+              form.button-form(action="/admin/skills/edit", method="get")
+                input(type="hidden", name="skillId", value=skill._id)
+                button.button(type="submit") Edit

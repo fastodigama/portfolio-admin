@@ -1,0 +1,28 @@
+extends admin-main-layout
+
+block main-layout-content
+  h3 Manage Projects
+  a.button(href="/admin/projects/add") + Add new project
+  
+  table.table
+    thead
+      tr
+        th Name
+        th Description
+        th Technologies
+        th Actions
+    tbody
+      each project in projects
+        tr
+          td 
+            a(href="#") #{project.name}
+          td #{project.description}
+          td #{project.technologies}
+          td
+            div.button-group
+              form.button-form(action="/admin/projects/delete")
+                input(type="hidden", name="projectId", value=project._id)
+                button.button.alert(type="submit") Delete
+              form.button-form(action="/admin/projects/edit")
+                input(type="hidden", name="projectId", value=project._id)
+                button.button(type="submit") Edit
