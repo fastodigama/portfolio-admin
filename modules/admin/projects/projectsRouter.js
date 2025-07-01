@@ -11,15 +11,19 @@ import links from "../menuLinks/linksFunctions.js" // import links
 //configure route for project admin page
 
 router.get("/", async (req , res) => {
-    const projectList = await model.getProjects();
-    const linkList = await links.getLinks();
-    res.render("admin/admin-projects.pug", {title: "Manage Projects",
+    try{
+        const projectList = await model.getProjects();
+        const linkList = await links.getLinks();
+        res.render("admin/admin-projects.pug", {title: "Manage Projects",
         projects: projectList , links : linkList
     });
-
-    res.json(projectList)
-
+    }catch{
+        console.error(err);
+        res.status(500).send("Server error");
+    }
     
+
+      
 });
 
 //for API request
