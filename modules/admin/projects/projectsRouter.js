@@ -10,15 +10,30 @@ import links from "../menuLinks/linksFunctions.js" // import links
 
 //configure route for project admin page
 
-
-
 router.get("/", async (req , res) => {
     const projectList = await model.getProjects();
     const linkList = await links.getLinks();
     res.render("admin/admin-projects.pug", {title: "Manage Projects",
         projects: projectList , links : linkList
     });
+
+    res.json(projectList)
+
+    
 });
+
+//for API request
+
+router.get("/api", async (req,res) => {
+    try{
+        const projectList = await model.getProjects();
+        res.json(projectList);
+    }catch(err){
+       res.status(500).json({ error: "Something went wrong." });
+    }
+
+});
+
 
 // add new project
 
@@ -26,6 +41,7 @@ router.get("/", async (req , res) => {
 router.get("/add", async (req , res) => {
      const linkList = await links.getLinks();
      res.render("admin/projects/project-add.pug", {title:"Add project",links: linkList});
+     
 });
 
 //submit the add project form

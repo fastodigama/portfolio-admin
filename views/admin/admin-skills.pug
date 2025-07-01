@@ -4,24 +4,26 @@ block main-layout-content
   h3 Manage Skills
   a.button(href="/admin/skills/add") + Add skill
 
-  table.table
-    thead
-      tr
-        th Name
-        th Level
-        th Category
-        th Actions
-    tbody
-      each skill in skills
-        tr
-          td #{skill.name}
-          td #{skill.level}
-          td #{skill.category}
-          td
-            .button-group
-              form.button-form(action="/admin/skills/delete", method="get")
-                input(type="hidden", name="skillId", value=skill._id)
-                button.button.alert(type="submit") Delete
-              form.button-form(action="/admin/skills/edit", method="get")
-                input(type="hidden", name="skillId", value=skill._id)
-                button.button(type="submit") Edit
+  .grid-x.align-center
+    .cell.small-12.medium-10
+      table.table
+        thead
+          tr
+            th.text-center Name
+            th Level
+            th Category
+            th Actions
+        tbody
+          each skill in skills
+            tr
+              td #{skill.name}
+              td #{skill.level}
+              td #{skill.category}
+              td.text-center
+                  .button-group
+                    form.button-form(action="/admin/skills/delete", method="get")
+                      input(type="hidden", name="skillId", value=skill._id)
+                      button.button.alert(type="submit") Delete
+                    form.button-form(action="/admin/skills/edit", method="get")
+                      input(type="hidden", name="skillId", value=skill._id)
+                      button.button(type="submit") Edit

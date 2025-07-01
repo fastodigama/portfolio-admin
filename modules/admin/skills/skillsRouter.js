@@ -18,6 +18,17 @@ router.get("/", async (req , res) => {
     });
 });
 
+//for API request
+
+router.get("/api", async (req,res) => {
+    try{
+        const skillsList = await model.getSkills();
+        res.json(skillsList);
+    }catch(err){
+       res.status(500).json({ error: "Something went wrong." });
+    }
+
+});
 
 // add new skill
 

@@ -30,6 +30,7 @@ body {
 }
 #main {
   flex: 1;
+  margin: 2rem;
 }
 #footer {
   margin-top: auto;
@@ -5890,12 +5891,13 @@ html.is-reveal-open body {
 .top-bar .top-bar-left,
 .top-bar .top-bar-right {
   flex: 0 0 100%;
-  max-width: 100%;
+  max-width: 40%;
 }
 
 @media print, screen and (min-width: 40em) {
   .top-bar {
     flex-wrap: nowrap;
+    align-items: center;
   }
   .top-bar .top-bar-left {
     flex: 1 1 auto;
@@ -6353,6 +6355,7 @@ body {
 /*# sourceMappingURL=style.css.map */
 .top-bar-right {
   text-align: right;           /* Align content to the right */
+  
 }
 
 .menu-icon {
@@ -6361,16 +6364,17 @@ body {
 }
 /* Make hamburger menu lines black */
 .menu-icon::after {
-  background-color: black;
+  background-color: #14679E;
   box-shadow: 
-    0 7px 0 black,
-    0 14px 0 black;
+    0 7px 0 #14679E,
+    0 14px 0 #14679E;
 }
 .menu-icon:hover::after,
 .menu-icon:focus::after,
 .menu-icon.is-active::after {
-  background-color: black !important;
+  background-color: #14679E !important;
   box-shadow: 
-    0 7px 0 black ,
-    0 14px 0 black !important;
+    0 7px 0 #14679E ,
+    0 14px 0 #14679E !important;
 }
+

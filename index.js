@@ -3,7 +3,15 @@ import "dotenv/config" // automatically loads environment variables and make it 
 import express from "express"; // 
 import path from "path"; //
 
+//Fpr API cross origin
+import cors from "cors";
+
+
+
+
+
 const __dirname = import.meta.dirname; 
+
 
 //Page routes
 
@@ -21,7 +29,10 @@ const port = process.env.PORT;
 app.use(express.urlencoded({extended:true}));
 // Allow reading JSON data sent by other API requests
 app.use(express.json());
-
+//enable cross site origin
+app.use(cors({
+  origin:'*'
+}));
 
 //configure the views and path
 app.set("views", path.join(__dirname,"views"));
@@ -32,6 +43,7 @@ app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname,"public")));
 
 //assigning a base URL path
+
 app.use("/", adminDashboard);
 app.use("/admin/dashboard", adminDashboard);
 app.use("/admin/projects", projectsRouter);
