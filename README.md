@@ -4,7 +4,15 @@ A portfolio admin panel built with **Express**, **Pug**, **MongoDB**, and **Foun
 It allows administrators to manage **projects** and **skills** with a modern, responsive UI.
 
 ---
+# API Endpoints
+The application exposes a simple JSON API to retrieve project data:
 
+GET (https://portfolio-admin-0pmi.onrender.com/admin/projects/api)
+GET (https://portfolio-admin-0pmi.onrender.com/admin/skills/api)
+
+Returns a JSON list of all projects. Useful for integration or frontend consumption.
+
+---
 ## 🛠 Features
 
 - Add, edit, and delete projects
