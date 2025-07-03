@@ -7,8 +7,11 @@ It allows administrators to manage **projects** and **skills** with a modern, re
 # API Endpoints
 The application exposes a simple JSON API to retrieve project data:
 
-GET (https://portfolio-admin-0pmi.onrender.com/admin/projects/api)
-GET (https://portfolio-admin-0pmi.onrender.com/admin/skills/api)
+- GET (https://portfolio-admin-0pmi.onrender.com/admin/projects/api)
+
+The application exposes a simple JSON API to retrieve Skills data:
+
+- GET (https://portfolio-admin-0pmi.onrender.com/admin/skills/api)
 
 Returns a JSON list of all projects. Useful for integration or frontend consumption.
 
