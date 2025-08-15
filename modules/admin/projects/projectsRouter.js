@@ -1,6 +1,12 @@
-
 import express from "express"; // Import Express framework
 import { ObjectId } from "mongodb";
+import { S3Client } from "@aws-sdk/client-s3";
+import multer from "multer";
+import multerS3 from "multer-s3";
+import dotenv from "dotenv";
+import path from "path";
+
+dotenv.config();
 
 const router = express.Router(); // Create a router to define admin routes
 
@@ -8,28 +14,34 @@ import model from "./projectsFunctions.js"; //import the exported functions
 import links from "../menuLinks/linksFunctions.js" // import links
 
 //for screenshot uploads
-import multer from "multer";
-import path from "path";
-import fs from 'fs';
+
+// The __dirname variable is now defined correctly for ES Modules
 const __dirname = import.meta.dirname; 
-// Set up the disk storage engine for Multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, path.resolve(__dirname, "public/images")); // Specify the destination folder
+
+// Configure the S3 client to connect to Cloudflare R2
+const s3 = new S3Client({
+  endpoint: `https://${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+  region: "auto",
+  credentials: {
+    accessKeyId: process.env.R2_ACCESS_KEY_ID,
+    secretAccessKey: process.env.R2_SECRET_ACCESS_KEY,
   },
-  filename: function (req, file, cb) {
-    // Sanitize the project name to create a slug
-    const projectNameSlug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
-    const fileExtension = path.extname(file.originalname);
-    
-    // Create the new filename, e.g., 'project-name-1.jpg'
-    const newFileName = `${projectNameSlug}-${Date.now()}${fileExtension}`;
-    cb(null, newFileName); // Use the new filename
-  }
 });
 
-const upload = multer({ storage: storage });
-//const upload = multer({ dest: path.resolve(__dirname, "public/images") });
+// Configure Multer to use multer-s3 for storage
+const upload = multer({
+  storage: multerS3({
+    s3: s3,
+    bucket: process.env.R2_BUCKET_NAME,
+    acl: "public-read",
+    key: function (req, file, cb) {
+      const projectNameSlug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
+      const fileExtension = path.extname(file.originalname);
+      const newFileName = `${projectNameSlug}-${Date.now()}${fileExtension}`;
+      cb(null, newFileName);
+    },
+  }),
+});
 
 //configure route for project admin page
 
@@ -40,13 +52,10 @@ router.get("/", async (req , res) => {
         res.render("admin/admin-projects.pug", {title: "Manage Projects",
         projects: projectList , links : linkList
     });
-    }catch{
+    }catch(err){
         console.error(err);
         res.status(500).send("Server error");
     }
-    
-
-      
 });
 
 //for API request
@@ -68,7 +77,7 @@ router.get("/api/:slug", async (req,res) => {
     const {slug} = req.params;
     const project = await model.getProjectBySlug(slug);
     if (!project) {
-            return res.status(404).json({ error: "Project not found." });
+        return res.status(404).json({ error: "Project not found." });
         }
     res.json(project);
 
@@ -91,13 +100,14 @@ router.get("/add", async (req , res) => {
 //submit the add project form
 
 router.post("/add/submit", upload.single("screenshots"),async (req, res) => {
-    // ... your logic remains the same, as req.file.filename will now have the custom name
+    const slug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
     const newProject = {
         name: req.body.name,
-        slug: req.body.slug, // Make sure you're getting the slug
+        slug: slug, 
         description: req.body.description,
         technologies: req.body.technologies,
-        screenshots: req.file ? req.file.filename : null
+        // The URL of the uploaded image is in req.file.location
+        screenshots: req.file ? req.file.location : null
     };
     await model.addProject(newProject);
     res.redirect("/admin/projects");
@@ -136,7 +146,5 @@ router.post("/edit/submit", async (req,res) => {
     await model.editProject(idFinder, project);
     res.redirect("/admin/projects");
 });
-
-
 
 export default router; // Export the router to use it in other files
