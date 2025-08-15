@@ -11,6 +11,14 @@ async function getProjects() {
     return await results.toArray(); // return the results as an array
 }
 
+//get project by slug
+async function getProjectBySlug(slug) {
+    let result = db.collection("projects").findOne({slug});
+    return await result
+    
+}
+
+
 //add new project
 
 async function addProject(projectDoc) {
@@ -61,4 +69,4 @@ async function editProject(filter, skill) {
 }
 
 
-export default {getProjects, addProject, deleteProject,getSingleProject,editProject};
+export default {getProjects, addProject, deleteProject,getSingleProject,editProject, getProjectBySlug};

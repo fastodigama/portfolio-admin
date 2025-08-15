@@ -38,6 +38,23 @@ router.get("/api", async (req,res) => {
 
 });
 
+//get project by slug api
+
+router.checkout("/api/:slug", async (req,res) => {
+    try{
+    const {slug} = req.params;
+    const project = await model.getProjectBySlug(slug);
+    if (!project) {
+            return res.status(404).json({ error: "Project not found." });
+        }
+    res.json(project);
+
+    } catch (err) {
+        res.status(500).json({ error: "Something went wrong." });
+    }
+    
+});
+
 
 // add new project
 
