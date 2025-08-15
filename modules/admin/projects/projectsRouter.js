@@ -40,7 +40,7 @@ router.get("/api", async (req,res) => {
 
 //get project by slug api
 
-router.checkout("/api/:slug", async (req,res) => {
+router.get("/api/:slug", async (req,res) => {
     try{
     const {slug} = req.params;
     const project = await model.getProjectBySlug(slug);
