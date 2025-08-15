@@ -3,7 +3,7 @@ extends ../admin-main-layout
 block main-layout-content
   h1 Add new project
 
-  form(action="/admin/projects/add/submit", method="post", class="grid-container")
+  form(action="/admin/projects/add/submit", method="post", enctype="multipart/form-data" ,class="grid-container")
     .grid-x.grid-padding-x
       .cell.medium-6
         label(for="name") Project Name
@@ -16,6 +16,10 @@ block main-layout-content
       .cell
         label(for="description") Description
         textarea(name="description", placeholder="Describe the project...", rows="4")
+      .cell
+        label(for="screenshots") Upload Screenshot
+        input(type="file", name="screenshots", id="screenshots")
+
          
       .cell
         button.button(type="submit") Add Project

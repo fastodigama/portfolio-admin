@@ -7,6 +7,29 @@ const router = express.Router(); // Create a router to define admin routes
 import model from "./projectsFunctions.js"; //import the exported functions
 import links from "../menuLinks/linksFunctions.js" // import links
 
+//for screenshot uploads
+import multer from "multer";
+import path from "path";
+import fs from 'fs';
+const __dirname = import.meta.dirname; 
+// Set up the disk storage engine for Multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.resolve(__dirname, "public/images")); // Specify the destination folder
+  },
+  filename: function (req, file, cb) {
+    // Sanitize the project name to create a slug
+    const projectNameSlug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
+    const fileExtension = path.extname(file.originalname);
+    
+    // Create the new filename, e.g., 'project-name-1.jpg'
+    const newFileName = `${projectNameSlug}-${Date.now()}${fileExtension}`;
+    cb(null, newFileName); // Use the new filename
+  }
+});
+
+const upload = multer({ storage: storage });
+//const upload = multer({ dest: path.resolve(__dirname, "public/images") });
 
 //configure route for project admin page
 
@@ -67,13 +90,14 @@ router.get("/add", async (req , res) => {
 
 //submit the add project form
 
-router.post("/add/submit", async (req, res) => {
-    const slug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
+router.post("/add/submit", upload.single("screenshots"),async (req, res) => {
+    // ... your logic remains the same, as req.file.filename will now have the custom name
     const newProject = {
         name: req.body.name,
-        slug: slug,
+        slug: req.body.slug, // Make sure you're getting the slug
         description: req.body.description,
-        technologies: req.body.technologies
+        technologies: req.body.technologies,
+        screenshots: req.file ? req.file.filename : null
     };
     await model.addProject(newProject);
     res.redirect("/admin/projects");

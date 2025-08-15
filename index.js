@@ -3,8 +3,14 @@ import "dotenv/config" // automatically loads environment variables and make it 
 import express from "express"; // 
 import path from "path"; //
 
+
+
 //Fpr API cross origin
 import cors from "cors";
+
+
+
+
 
 
 
@@ -34,6 +40,7 @@ app.use(cors({
   origin:'*'
 }));
 
+
 //configure the views and path
 app.set("views", path.join(__dirname,"views"));
 //setup the view engine
@@ -41,6 +48,8 @@ app.set("view engine", "pug");
 
 //setup access to static files like css, js, and img
 app.use(express.static(path.join(__dirname,"public")));
+
+
 
 //assigning a base URL path
 
