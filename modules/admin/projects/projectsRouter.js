@@ -40,6 +40,7 @@ const upload = multer({
       const newFileName = `${projectNameSlug}-${Date.now()}${fileExtension}`;
       cb(null, newFileName);
     },
+    
   }),
 });
 
@@ -99,19 +100,26 @@ router.get("/add", async (req , res) => {
 
 //submit the add project form
 
-router.post("/add/submit", upload.single("screenshots"),async (req, res) => {
-    const slug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
-    const newProject = {
-        name: req.body.name,
-        slug: slug, 
-        description: req.body.description,
-        technologies: req.body.technologies,
-        // The URL of the uploaded image is in req.file.location
-        screenshots: req.file ? req.file.location : null
-    };
-    await model.addProject(newProject);
-    res.redirect("/admin/projects");
+router.post("/add/submit", upload.array("screenshots", 5), async (req, res) => {
+  const slug = req.body.name.toLowerCase().trim().replace(/\s+/g, "-");
+
+  const publicUrls = req.files.map(file => {
+    return `https://${process.env.R2_PUBLIC_URL_ID}.r2.dev/${file.key}`;
+  });
+
+  const newProject = {
+    name: req.body.name,
+    slug: slug,
+    description: req.body.description,
+    technologies: req.body.technologies,
+    screenshots: publicUrls
+  };
+
+  await model.addProject(newProject);
+  res.redirect("/admin/projects");
 });
+
+
 
 //Delete project
 router.get("/delete", async (req,res) => {
@@ -131,6 +139,7 @@ router.get("/edit", async(req,res) => {
     };
 });
 
+//edit form submit router
 //edit form submit router
 router.post("/edit/submit", async (req,res) => {
     const idFinder = { _id: new ObjectId(req.body.projectId)};

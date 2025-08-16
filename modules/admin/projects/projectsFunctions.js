@@ -41,6 +41,8 @@ async function deleteProject(id) {
     
 }
 
+
+
     //update logic, first find the edit project id
 async function getSingleProject(id) {
     const editIdFilter = { _id: new ObjectId(String(id)) };
@@ -51,8 +53,7 @@ async function getSingleProject(id) {
 };
 
     
-
-//edit skill function
+//edit project
 async function editProject(filter, skill) {
 
     const result = await db.collection("projects").updateOne(filter,
